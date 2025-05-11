@@ -1,0 +1,22 @@
+[MAPPING FILE]
+/tmp/GNAT-TEMP-000005.TMP
+[TOOLCHAIN VERSION]
+ada
+GNAT 12
+[MAIN BASE NAME]
+data_configuration
+[COMPILER PATH]
+/usr/bin/gcc-12
+[COMPILER LEADING SWITCHES]
+-c
+-x
+ada
+-gnatA
+[MAIN DEPENDENCY FILE]
+/home/dimitrilesdos/Lespace_Contemporain/lespace_application/lespace/src/data_configuration.ali
+[DEPENDENCY FILES]
+[BINDING OPTIONS]
+gnatbind_prefix=
+[PROJECT FILES]
+/usr/share/gpr/_default.gpr
+20220922170857 64e36360154bb120a583eacc47e2e1a1

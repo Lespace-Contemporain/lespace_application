@@ -1,0 +1,542 @@
+--                      Lespace Contemporain
+--  ce package a ete developper par le programmeur : Z.M Dimitri Emmanuel
+--  la date du : 30 septembre 09 2024 au lieu de Mboukou (city).
+--  ce package contient les differentes methodes qui permettent de creer,
+--  modifier les fonctionnalitees de la fenetre principales du logiciels.
+with Gtk.Enums;             use Gtk.Enums;
+with Gtk;                   use Gtk;
+with Gtk.Main;              use Gtk.Main;
+with ma_fenetre;            use ma_fenetre;
+with Glib.Error;            use Glib.Error;
+with ma_fenetre.anglais;    use ma_fenetre.anglais;
+with Ada.Directories;       use Ada.Directories;
+with Ada.Text_IO;           use Ada.Text_IO;
+with ma_fenetre.ma_boite;   use ma_fenetre.ma_boite;
+with Ada.Integer_Text_IO;   use Ada.Integer_Text_IO;
+with Gtk.Style_Provider;    use Gtk.Style_Provider;
+with ma_fenetre.contactez;  use ma_fenetre.contactez;
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+
+package body ma_fenetre is
+
+------------------------
+--  Creer_Container  --
+------------------------
+
+   procedure creer_container (F : in out fenetre_lespace) is
+   begin
+
+      Gtk_New (F.Table, 0, 0, True);
+
+      -- ajoute le bouton ma_boite au container
+      
+      Gtk_New (F.Align (1), 0.4, 0.1, 0.0, 0.0);
+      F.Align (1).Add (bouton_ma_boite (F));
+      F.Table.Add (F.Align (1));
+
+      --  ajoute le bouton_lien_english au container
+      
+      Gtk_New (F.Align (2), 0.5, 0.1, 0.0, 0.0);
+      F.Align (2).Add (ma_fenetre.bouton_lien_english (F));
+      F.Table.Add (F.Align (2));
+
+      --  ajoute le bouton_lien_contactez_nous au container
+      
+      Gtk_New (F.Align (3), 0.6, 0.1, 0.0, 0.0);
+      F.Align (3).Add (bouton_lien_contactez_nous (F));
+      F.Table.Add (F.Align (3));
+
+      -- ajouter le bouton_connexion au container
+      
+      Gtk_New (F.Align (4), 0.5, 0.5, 0.0, 0.0);
+      F.Align (4).Add (bouton_connexion (F));
+      F.Table.Add (F.Align (4));
+
+      --  ajoute le bouton_commander_une_boite au container
+      
+      Gtk_New (F.Align (5), 0.5, 1.0, 0.0, 0.0);
+      F.Align (5).Add (bouton_commander_une_boite (F));
+      F.Table.Add (F.Align (5));
+
+      --  ajoute le bouton_nouvel_abonnement au container
+      
+      Gtk_New (F.Align (6), 0.5, 0.9, 0.0, 0.0);
+      F.Align (6).Add (bouton_nouvel_abonnement (F));
+      F.Table.Add (F.Align (6));
+
+      -- ajoute le logo_lespace au container
+      
+      Gtk_New (F.Align (7), 0.0, 0.0, 0.0, 0.0);
+      F.Align (7).Add (logo_lespace (F));
+      F.Table.Add (F.Align (7));
+
+   end creer_container;
+
+---------------------------------
+--  bouton_commander_une_boite --
+---------------------------------
+
+   procedure bouton_commander_une_boite (F : fenetre_lespace) is
+   begin
+
+      Ajouter_une_image (F, "panier.png", 30, 30);
+      Gtk_New (F.logo, image_ajouter (F));
+
+      Gtk_New (F.Button, Nom_bouton_commander_boite);
+   
+      Connect (F.Button, Signal_Clicked, callback_commander_boite'Access, F);
+
+      Set_Image (F.Button, F.logo);
+      Set_Relief (F.Button, Relief_None);
+      Set_Always_Show_Image (F.Button, True);
+
+   end bouton_commander_une_boite;
+
+   -- function
+
+   function bouton_commander_une_boite
+    (F : fenetre_lespace) return Gtk_Button is
+   begin
+
+      bouton_commander_une_boite (F);
+      return F.Button;
+   end bouton_commander_une_boite;
+
+--------------------------------
+--  bouton_nouvel_abonnement  --
+--------------------------------
+
+   procedure bouton_nouvel_abonnement (F : fenetre_lespace) is
+   begin
+
+      Ajouter_une_image (F, "subscription.png", 30, 30);
+      
+      Gtk_New (F.logo, image_ajouter (F));
+
+      Gtk_New (F.Button, Nom_bouton_nouvel_abonnement);
+
+      Connect (F.Button, Signal_Clicked, callback_nouvel_abonnement'Access, F);
+
+      Set_Image (F.Button, F.logo);
+      Set_Relief (F.Button, Relief_None);
+      Set_Always_Show_Image (F.Button, True);
+
+   end bouton_nouvel_abonnement;
+
+--  function
+
+   function bouton_nouvel_abonnement (F : fenetre_lespace) return Gtk_Button is
+   begin
+
+      bouton_nouvel_abonnement (F);
+      return F.Button;
+
+   end bouton_nouvel_abonnement;
+
+-----------------------
+--  bouton_ma_boite  --
+-----------------------
+
+   procedure bouton_ma_boite (F : fenetre_lespace) is
+   begin
+
+      Ajouter_une_image (F, "boite.png", 50, 50);
+
+      Gtk_New (F.logo, image_ajouter (F));
+
+      Gtk_New (F.Button, Nom_bouton_ma_boite);
+
+      Set_Image (F.Button, F.logo);
+      Set_Relief (F.Button, Relief_None);
+      Set_Image_Position (F.Button, Pos_Top);
+      Set_Always_Show_Image (F.Button, True);
+
+      Connect (F.Button,
+               Signal_Clicked,
+               callback_bouton_ma_boite'Access);
+
+   end bouton_ma_boite;
+
+-- function
+
+   function bouton_ma_boite (F : fenetre_lespace) return Gtk_Button is
+   begin
+
+      bouton_ma_boite (F);
+      return F.Button;
+
+   end bouton_ma_boite;
+
+---------------------------------
+--  bouton_lien_contactez_nous --
+---------------------------------
+
+   procedure bouton_lien_contactez_nous (F : fenetre_lespace) is
+   begin
+
+      Ajouter_une_image (F, "enveloppe.png", 50, 50);
+
+      Gtk_New (F.logo, image_ajouter (F));
+
+      Gtk_New (F.Button,
+               Nom_bouton_lien_contactez_nous);
+
+      Set_Image (F.Button, F.logo);
+      Set_Relief (F.Button, Relief_None);
+      Set_Image_Position (F.Button, Pos_Top);
+      Set_Always_Show_Image (F.Button, True);
+
+      Connect (F.Button, Signal_Clicked, callback_lien_contactez_Nous'Access);
+
+   end bouton_lien_contactez_nous;
+
+-- function
+
+   function bouton_lien_contactez_nous
+    (F : fenetre_lespace) return Gtk_Button is
+   begin
+
+      bouton_lien_contactez_nous (F);
+      return F.Button;
+
+   end bouton_lien_contactez_nous;
+
+--------------------------
+--  bouton_lien_english --
+--------------------------
+
+   procedure bouton_lien_english (F : fenetre_lespace) is
+   begin
+
+      Ajouter_une_image (F, "globe.png", 50, 50);
+
+      Gtk_New (F.logo, image_ajouter (F));
+
+      Gtk_New (F.Button,
+               Nom_bouton_lien_english);
+
+      Set_Image (F.Button, F.logo);
+      Set_Relief (F.Button, Relief_None);
+      Set_Image_Position (F.Button, Pos_Top);
+      Set_Always_Show_Image (F.Button, True);
+
+      Connect (F.Button, Signal_Clicked, callback_lien_english'Access);
+
+   end bouton_lien_english;
+
+-- function
+
+   function bouton_lien_english (F : fenetre_lespace) return Gtk_Button is
+   begin
+
+      bouton_lien_english (F);
+      return F.Button;
+
+   end bouton_lien_english;
+
+---------------------
+--  creer_fenetre  --
+---------------------
+
+   procedure creer_fenetre (Object : out fenetre_lespace) is 
+   begin
+
+      Gtk_New (Object.Win);
+      modifier_langue (langues, Francais);
+      Object.Win.Fullscreen;
+      
+      ajouter_une_image (Object, "logo simple.jpg", 1, 1);
+      Set_Icon (Object.Win, image_ajouter (Object));
+      creer_container (Object);
+      style_fenetre (Object);
+
+      Connect (Object.Win, Gtk.Widget.Signal_Destroy, fermer_fenetre'Access);
+
+      Object.Win.Add (container (Object));
+
+      Add_Provider_For_screen (Get_Default,
+       +Object.Provider, Gtk.Style_Provider.Priority_Application);
+
+   end creer_fenetre;
+
+---------------------
+--  image_ajouter  --
+---------------------
+
+   function image_ajouter
+    (F : not null access fenetre_lespace_record'Class) return Gdk_Pixbuf is
+    begin
+    return F.Image2;
+    end image_ajouter;
+
+--------------------
+--  logo_lespace  --
+--------------------
+
+   procedure logo_lespace (F : access fenetre_lespace_record'Class) is
+   begin
+
+      Ajouter_une_image (F, "logo lespace.png", 190, 100);
+      
+      Gtk_New (F.logo, image_ajouter (F));
+
+      style_fenetre (F);
+      Add_Provider (Get_Style_Context (F.logo),
+       +F.Provider, Gtk.Style_Provider.Priority_Application);
+   end logo_lespace;
+
+-------------------------
+--  ajouter_une_image  --
+-------------------------
+
+   procedure ajouter_une_image (F : not null access fenetre_lespace_record'Class;
+                                Img_Name : String;
+                                Img_Width : Gint;
+                                Img_Height : Gint) is
+
+      Erreur : Glib.Error.GError;
+   
+   begin
+  
+  Gdk_New_From_File (F.Image, Img_Name, Erreur);
+  F.Image2 := Scale_Simple (F.Image, Img_Width, Img_Height);
+
+   end ajouter_une_image;
+
+-----------------------------
+--  function logo_lespace  --
+-----------------------------
+
+   function logo_lespace (F : access fenetre_lespace_record'Class) return Gtk_Image is
+   begin
+
+      logo_lespace (F);
+      return F.logo;
+
+   end logo_lespace;
+
+------------------------
+--  bouton_connexion  --
+------------------------
+
+   procedure bouton_connexion (F : fenetre_lespace) is
+   begin
+
+      Gtk_New (F.Button2, Nom_bouton_connexion);
+      Set_Size_Request (F.Button2, 300, 300);
+      style_fenetre (F);
+      Add_Provider (Get_Style_Context (F.Button2),
+      +F.Provider, Gtk.Style_Provider.Priority_Application);
+      Connect (F.Button2, Signal_Clicked, callback_bouton_connexion'Access);
+
+   end bouton_connexion;
+
+-- function
+   
+   function bouton_connexion (F : fenetre_lespace) return Gtk_Button is
+   begin
+
+      bouton_connexion (F);
+      return F.Button2;
+
+   end bouton_connexion;
+
+----------------------
+--  ouvrir_fenetre  --
+----------------------
+
+   procedure ouvrir_fenetre (F : fenetre_lespace) is
+   begin
+
+      F.Win.Show_All;
+
+   end ouvrir_fenetre;
+
+----------------------
+--  fermer_fenetre  --
+----------------------
+
+   procedure fermer_fenetre (F : access Gtk_Widget_Record'class) is
+   pragma Unreferenced (F);
+   begin
+
+      Main_Quit;
+
+   end fermer_fenetre;
+
+---------------------------
+--  fenetre_est_ouverte  --
+---------------------------
+
+   function fenetre_est_ouverte (F : fenetre_lespace) return Boolean is
+   begin
+
+      if F.Win.Is_Active then
+
+         return True;
+
+      else
+         return False;
+
+      end if;
+   end fenetre_est_ouverte;
+
+----------------
+-- Container  --
+----------------
+   function container
+    (F : not null access fenetre_lespace_record'Class) return Gtk_Table is
+   begin
+   return F.Table;
+   end container;
+
+----------------------------
+--  ajouter_a_la_fenetre  --
+----------------------------
+
+   procedure Ajouter_a_la_fenetre (F : fenetre_lespace;
+    Item : not null access Gtk_Widget_Record'Class) is
+   begin
+
+      F.Table.Add (Item);
+
+   end Ajouter_a_la_fenetre;
+
+----------------------
+--  langue_fenetre  --
+----------------------
+
+   function language_fenetre
+    (F : access fenetre_lespace_record'class) return langue_parlee is
+   begin
+      return langue (langues);
+   end language_fenetre;
+
+---------------------
+--  style_fenetre  --
+---------------------
+
+   procedure style_fenetre
+    (F : not null access fenetre_lespace_record'class) is
+
+      Erreur : aliased GError;
+      Bool : aliased Boolean;
+   begin
+
+      Gtk_New (F.Provider);
+      Gtk_New (F.Button);
+      Bool := Load_From_Path (F.Provider, "style.css", Erreur'Access);
+   end style_fenetre;
+
+--------------------------------
+--  callback_commander_boite  --
+--------------------------------
+
+   procedure callback_commander_boite
+   (widget : access Gtk_Widget_Record'Class;
+   F : fenetre_lespace) is
+   begin
+
+      F.D1.Message := To_Unbounded_String ("Je veux commander une boite");
+
+      creation_reseau (F.net);
+      ouverture_reseau (F.net);
+
+      Data'Write (reseau (F.net), F.D1);
+
+      
+   end callback_commander_boite;
+
+----------------------------------
+--  callback_nouvel_abonnement  --
+----------------------------------
+
+   procedure callback_nouvel_abonnement
+   (widget : access Gtk_Widget_Record'Class;
+   F : fenetre_lespace) is
+   begin
+      
+      F.D1.Message := To_Unbounded_String ("Je veux m'abonner");
+
+       creation_reseau (F.net);
+       ouverture_reseau (F.net);
+       
+      Data'Write (reseau (F.net), F.D1);
+
+      fermeture_reseau (F.net);
+      
+   end callback_nouvel_abonnement;
+
+------------------------------------
+--  callback_lien_contactez_nous  --
+------------------------------------
+
+   procedure callback_lien_contactez_Nous
+    (widget : access Gtk_Widget_Record'Class) is
+      pragma Unreferenced (widget);
+
+      F : service_client;
+   begin
+
+      F := new service_client_record;
+      initialise (F);
+   end callback_lien_contactez_Nous;
+
+-----------------------------
+--  callabck_lien_english  --
+-----------------------------
+
+   procedure callback_lien_english
+    (widget : access Gtk_Widget_Record'Class) is
+      pragma Unreferenced (widget);
+
+      F : fenetre_anglaise;
+   begin
+
+      F := new fenetre_lespace_anglais;
+      create_Window (F);
+      open_window (F);
+
+   end callback_lien_english;
+
+---------------------------------
+--  callback_bouton_connexion  --
+---------------------------------
+
+   procedure callback_bouton_connexion
+    (widget : access Gtk_Widget_Record'Class) is
+      pragma Unreferenced (widget);
+
+      Id : Integer;
+      Mdp : Unbounded_String;
+      -- active_value : Constant String := . . .
+   begin
+      Put_Line ("Entrer le numero Id");
+      Get (Id);
+      Skip_Line;
+
+      Put_Line ("Entrer le mot de passe");
+      Mdp := To_Unbounded_String (Get_Line);
+      Skip_Line;
+      --
+      --  verification des donnees et accession au reseau
+
+   end callback_bouton_connexion;
+
+--------------------------------
+--  callback_bouton_ma_boite  --
+--------------------------------
+
+   procedure callback_bouton_ma_boite
+    (Widget : access Gtk_Widget_Record'Class) is
+      pragma Unreferenced (Widget);
+
+      F : fenetre_ma_boite;
+   begin
+
+      F := new fenetre_ma_boite_record;
+      creer_fenetre (F);
+
+   end callback_bouton_ma_boite;
+
+end ma_fenetre;

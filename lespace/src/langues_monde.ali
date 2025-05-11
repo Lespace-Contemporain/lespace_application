@@ -1,0 +1,33 @@
+V "GNAT Lib v12"
+A -gnatA
+A -mtune=generic
+A -march=x86-64
+P ZX
+
+RN
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U langues_monde%b	langues_monde.adb	87abe4e4 NE OO PK IL
+
+U langues_monde%s	langues_monde.ads	c8fcf870 EE NE OO PK IL
+
+D langues_monde.ads	20241219203341 c8fcf870 langues_monde%s
+D langues_monde.adb	20241219203343 4f571c94 langues_monde%b
+D system.ads		20220819080952 a2da961d system%s
+G a e
+G c Z s b [modifier_langue langues_monde 6 11 none]
+G c Z s b [langue langues_monde 8 10 none]
+G c Z s s [language_utilisateurIP langues_monde 12 6 none]
+X 1 langues_monde.ads
+1K9*langues_monde 12E6 18l5 18e18 2|1b14 17l5 17t18
+3R6*language_utilisateur 6r36 8r22 12c6 16e11 2|3r36 11r22
+4E6*langue_parlee 4e42 7r32 8r51 14r5 2|4r32 11r51
+4n24*English{4E6}
+4n33*Francais{4E6} 14r22
+6U11*modifier_langue 6<28 7>28 2|3b11 9l5 9t20
+6r28 F{3R6} 2|3b28 7m1
+7e28 L{4E6} 2|4b28 7r8
+8V10*langue{4E6} 8>18 2|11b10 16l5 16t11
+8r18 F{3R6} 2|11b18 14r8
+14e1*L{4E6} 2|7m3 14r10
+

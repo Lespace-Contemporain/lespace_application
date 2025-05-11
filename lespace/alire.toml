@@ -1,0 +1,11 @@
+name = "lespace"
+description = "Shiny new project"
+version = "0.1.0-dev"
+
+authors = ["Zokoualoumba Moussounda Emmanuel Dimitri"]
+maintainers = ["Zokoualoumba Moussounda Emmanuel Dimitri <dimitrilesdos@gmail.com>"]
+maintainers-logins = ["Dimitrilesdos"]
+
+executables = ["lespace"]
+[[depends-on]]
+gtkada = "^24.0.0"
