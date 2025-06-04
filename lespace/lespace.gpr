@@ -10,6 +10,7 @@ project Lespace is
    for Main use ("lespace.adb");
 
    package Compiler is
+      for Driver ("Ada") use "gcc";
       for Default_Switches ("Ada") use ("-O2", "-gnat2022");
    end Compiler;
 

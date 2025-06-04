@@ -7,3 +7,5 @@ PROJECT_FILE = lespace/lespace.gpr
 
 build :
 	$(ADA_COMPILER) $(PROJECT_FILE)
+install :
+	cd lespace/ && alr with gtkada
