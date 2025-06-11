@@ -10,7 +10,9 @@
 To build Lespace application project the followings tools should be install :
 
 alire
+
 gnat community
+
 gprbuild
 
 run :
@@ -18,7 +20,9 @@ run :
 	make install
 
 this command install the tools used by Lespace application :
+
 a gnat native version and gprbuild
+
 gtkada for graphical interface of application
 
 to update the project on github platform of Lespace Contemporain run :
