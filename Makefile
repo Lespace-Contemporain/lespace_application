@@ -9,6 +9,9 @@ NEXT = cd
 build :
 	$(ADA_COMPILER) $(PROJECT_FILE)
 
+run :
+	$(NEXT) lespace/bin/development && ./lespace
+
 install :
 	$(NEXT) lespace/ && alr toolchain --select
 	$(NEXT) lespace/ && alr with gtkada
