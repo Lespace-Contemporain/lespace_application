@@ -14,6 +14,7 @@ gnat community
 gprbuild
 
 run :
+
 	make install
 
 this command install the tools used by Lespace application :
@@ -26,8 +27,8 @@ to update the project on github platform of Lespace Contemporain run :
 
 to build the application use the following command :
 
-	make build
+	 make build
 
 now to run the application use :
 
-        make run
+	make run
