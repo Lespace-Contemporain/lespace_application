@@ -10,7 +10,7 @@ build :
 	$(ADA_COMPILER) $(PROJECT_FILE)
 
 run :
-	$(NEXT) lespace/bin/development && ./lespace
+	$(NEXT) lespace/src/ && alr run
 
 install :
 	$(NEXT) lespace/ && alr toolchain --select
