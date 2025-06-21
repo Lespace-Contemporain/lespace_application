@@ -18,5 +18,5 @@ install :
 
 update :
 	git add .
-	git commit -m "commit"
+	git commit -m "first commit"
 	git push -u origin main
