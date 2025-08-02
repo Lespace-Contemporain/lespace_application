@@ -2,13 +2,16 @@
 
 # Makefile written by ZOKOUALOUMBA MOUSSOUNDA EMMANUEL DIMITRI
 
-ADA_COMPILER = gprbuild
+ALR_COMPILE = alr build
+GPR_COMPILE = gprbuild
 PROJECT_FILE = lespace/lespace.gpr
 NEXT = cd
 
-build :
+ all:
 	$(ADA_COMPILER) $(PROJECT_FILE)
 
+build :
+	$(NEXT) lespace/ && $(ALR_COMPILE)
 run :
 	$(NEXT) lespace/src/ && alr run
 
