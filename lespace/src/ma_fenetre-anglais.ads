@@ -16,17 +16,12 @@ private
 
    type fenetre_lespace_anglais is new fenetre_lespace_record with null record;
 
-   procedure create_button_my_box (box : fenetre_anglaise);
-   function button_my_box (box : fenetre_anglaise) return Gtk_Button;
 
    procedure create_button_contact_us (contact : fenetre_anglaise);
    function button_contact_us (contact : fenetre_anglaise) return Gtk_Button;
 
    procedure create_button_francais (french : fenetre_anglaise);
    function button_francais (french : fenetre_anglaise) return Gtk_Button;
-
-   procedure create_button_connect_you (connect : fenetre_anglaise);
-   function button_connect_you (connect : fenetre_anglaise) return Gtk_Button;
 
    procedure create_button_order_box (box : fenetre_anglaise);
    function button_order_box (box : fenetre_anglaise) return Gtk_Button;

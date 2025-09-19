@@ -109,7 +109,7 @@ private
     D1 : Data;
     Table : Gtk_Table;
     Header : Gtk_Header_Bar;
-    Align : Alignements (1 .. 7);
+    Align : Alignements (1 .. 5);
     Image : Gdk_Pixbuf;
     Image2 : Gdk_Pixbuf;
 
@@ -161,20 +161,6 @@ private
        -- Permet de connecter le bouton lien "Contactez-nous" a
        -- un evenement lui permettant d'acceder a la page pour contacter
        -- le service client Lespace Contemporain.
-       
-      procedure bouton_connexion (F : fenetre_lespace);
-      --  Permet de creer le bouton "Connexion".
-      --  le parametre "F" est un type fenetre_lespace.
-      
-      function bouton_connexion (F : fenetre_lespace) return Gtk_Button;
-      --  renvoie le bouton "Connexion".
-      --  le parametre "F" est un type fenetre_lespace.
-      
-      procedure callback_bouton_connexion
-       (widget : access Gtk_Widget_Record'Class);
-      --  Permet de connecter le bouton "Connexion" a un
-      --  evenement qui va connecter l'appareil de l'utilisateur
-      --  au reseau Lespace Contemporain.
       
       procedure bouton_lien_english (F : fenetre_lespace);
       --  Permet de creer le bouton lien "English".
@@ -190,12 +176,6 @@ private
       --  un evenement lui permettant de changer la langue de la fenetre
       --  en langue anglaise.
       
-      procedure callback_bouton_ma_boite
-      (Widget : access Gtk_Widget_Record'Class);
-      --  Permet de connecter le bouton "ma boite" a un evenement
-      --  qui va lui permettre d'aller dans les configurations
-      --  de sa boite.
-      
       procedure logo_lespace
        (F : access fenetre_lespace_record'Class);
       --  Permet d'ajouter un logode lespace
@@ -210,14 +190,6 @@ private
        (F : not null access fenetre_lespace_record'class);
       --  permet d'ajouter du style css a la fenetre et au differentes partie.
       --  Le parametre "F" est un type pointeur sur fenetre_lespace_record.
-      
-      procedure bouton_ma_boite (F : fenetre_lespace);
-      --  Permet de creer le bouton ma boite
-      --  Le parametre "F" est un type fenetre_lespace.
-      
-      function bouton_ma_boite (F : fenetre_lespace) return Gtk_Button;
-      --  renvoie le bouton ma boite.
-      --  "F" est un type fenetre_lespace.
       
       function container
        (F : not null access fenetre_lespace_record'Class) return Gtk_Table;

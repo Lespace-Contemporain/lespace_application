@@ -28,47 +28,35 @@ package body ma_fenetre is
 
       Gtk_New (F.Table, 0, 0, True);
 
-      -- ajoute le bouton ma_boite au container
-      
-      Gtk_New (F.Align (1), 0.4, 0.1, 0.0, 0.0);
-      F.Align (1).Add (bouton_ma_boite (F));
-      F.Table.Add (F.Align (1));
-
       --  ajoute le bouton_lien_english au container
       
-      Gtk_New (F.Align (2), 0.5, 0.1, 0.0, 0.0);
-      F.Align (2).Add (ma_fenetre.bouton_lien_english (F));
-      F.Table.Add (F.Align (2));
+      Gtk_New (F.Align (1), 0.4, 0.1, 0.0, 0.0);
+      F.Align (1).Add (ma_fenetre.bouton_lien_english (F));
+      F.Table.Add (F.Align (1));
 
       --  ajoute le bouton_lien_contactez_nous au container
       
-      Gtk_New (F.Align (3), 0.6, 0.1, 0.0, 0.0);
-      F.Align (3).Add (bouton_lien_contactez_nous (F));
-      F.Table.Add (F.Align (3));
-
-      -- ajouter le bouton_connexion au container
-      
-      Gtk_New (F.Align (4), 0.5, 0.5, 0.0, 0.0);
-      F.Align (4).Add (bouton_connexion (F));
-      F.Table.Add (F.Align (4));
+      Gtk_New (F.Align (2), 0.6, 0.1, 0.0, 0.0);
+      F.Align (2).Add (bouton_lien_contactez_nous (F));
+      F.Table.Add (F.Align (2));
 
       --  ajoute le bouton_commander_une_boite au container
       
-      Gtk_New (F.Align (5), 0.5, 1.0, 0.0, 0.0);
-      F.Align (5).Add (bouton_commander_une_boite (F));
-      F.Table.Add (F.Align (5));
+      Gtk_New (F.Align (3), 0.5, 0.6, 0.0, 0.0);
+      F.Align (3).Add (bouton_commander_une_boite (F));
+      F.Table.Add (F.Align (3));
 
       --  ajoute le bouton_nouvel_abonnement au container
       
-      Gtk_New (F.Align (6), 0.5, 0.9, 0.0, 0.0);
-      F.Align (6).Add (bouton_nouvel_abonnement (F));
-      F.Table.Add (F.Align (6));
+      Gtk_New (F.Align (4), 0.5, 0.5, 0.0, 0.0);
+      F.Align (4).Add (bouton_nouvel_abonnement (F));
+      F.Table.Add (F.Align (4));
 
       -- ajoute le logo_lespace au container
       
-      Gtk_New (F.Align (7), 0.0, 0.0, 0.0, 0.0);
-      F.Align (7).Add (logo_lespace (F));
-      F.Table.Add (F.Align (7));
+      Gtk_New (F.Align (5), 0.0, 0.0, 0.0, 0.0);
+      F.Align (5).Add (logo_lespace (F));
+      F.Table.Add (F.Align (5));
 
    end creer_container;
 
@@ -132,40 +120,6 @@ package body ma_fenetre is
       return F.Button;
 
    end bouton_nouvel_abonnement;
-
------------------------
---  bouton_ma_boite  --
------------------------
-
-   procedure bouton_ma_boite (F : fenetre_lespace) is
-   begin
-
-      Ajouter_une_image (F, "boite.png", 50, 50);
-
-      Gtk_New (F.logo, image_ajouter (F));
-
-      Gtk_New (F.Button, Nom_bouton_ma_boite);
-
-      Set_Image (F.Button, F.logo);
-      Set_Relief (F.Button, Relief_None);
-      Set_Image_Position (F.Button, Pos_Top);
-      Set_Always_Show_Image (F.Button, True);
-
-      Connect (F.Button,
-               Signal_Clicked,
-               callback_bouton_ma_boite'Access);
-
-   end bouton_ma_boite;
-
--- function
-
-   function bouton_ma_boite (F : fenetre_lespace) return Gtk_Button is
-   begin
-
-      bouton_ma_boite (F);
-      return F.Button;
-
-   end bouton_ma_boite;
 
 ---------------------------------
 --  bouton_lien_contactez_nous --
@@ -314,32 +268,6 @@ package body ma_fenetre is
       return F.logo;
 
    end logo_lespace;
-
-------------------------
---  bouton_connexion  --
-------------------------
-
-   procedure bouton_connexion (F : fenetre_lespace) is
-   begin
-
-      Gtk_New (F.Button2, Nom_bouton_connexion);
-      Set_Size_Request (F.Button2, 300, 300);
-      style_fenetre (F);
-      Add_Provider (Get_Style_Context (F.Button2),
-      +F.Provider, Gtk.Style_Provider.Priority_Application);
-      Connect (F.Button2, Signal_Clicked, callback_bouton_connexion'Access);
-
-   end bouton_connexion;
-
--- function
-   
-   function bouton_connexion (F : fenetre_lespace) return Gtk_Button is
-   begin
-
-      bouton_connexion (F);
-      return F.Button2;
-
-   end bouton_connexion;
 
 ----------------------
 --  ouvrir_fenetre  --
@@ -498,45 +426,5 @@ package body ma_fenetre is
       open_window (F);
 
    end callback_lien_english;
-
----------------------------------
---  callback_bouton_connexion  --
----------------------------------
-
-   procedure callback_bouton_connexion
-    (widget : access Gtk_Widget_Record'Class) is
-      pragma Unreferenced (widget);
-
-      Id : Integer;
-      Mdp : Unbounded_String;
-      -- active_value : Constant String := . . .
-   begin
-      Put_Line ("Entrer le numero Id");
-      Get (Id);
-      Skip_Line;
-
-      Put_Line ("Entrer le mot de passe");
-      Mdp := To_Unbounded_String (Get_Line);
-      Skip_Line;
-      --
-      --  verification des donnees et accession au reseau
-
-   end callback_bouton_connexion;
-
---------------------------------
---  callback_bouton_ma_boite  --
---------------------------------
-
-   procedure callback_bouton_ma_boite
-    (Widget : access Gtk_Widget_Record'Class) is
-      pragma Unreferenced (Widget);
-
-      F : fenetre_ma_boite;
-   begin
-
-      F := new fenetre_ma_boite_record;
-      creer_fenetre (F);
-
-   end callback_bouton_ma_boite;
 
 end ma_fenetre;
