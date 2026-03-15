@@ -4,6 +4,12 @@
 --  ce package contient les differentes methodes qui permettent de creer,
 --  modifier les fonctionnalitees de la fenetre principale du logiciel.
 
+pragma Ada_2022;
+
+
+with AWS.Client;             use AWS.Client;
+with AWS.Status;             use AWS.Status;
+with AWS.Headers;            use AWS.Headers;
 with Glib;                   use Glib;
 with Gtk.Css_Provider;       use Gtk.Css_Provider;
 with Gtk.Application;        use Gtk.Application;
@@ -11,7 +17,6 @@ with Gtk.Header_Bar;         use Gtk.Header_Bar;
 with Gtk.Style_Context;      use Gtk.Style_Context;
 with Gtk.Link_Button;        use Gtk.Link_Button;
 with Gtk.Alignment;          use Gtk.Alignment;
-with reseaux;                use reseaux;
 with Gtk.Widget;             use Gtk.Widget;
 with Gdk.Pixbuf;             use Gdk.Pixbuf;
 with Gtk.Image;              use Gtk.Image;
@@ -20,8 +25,15 @@ with Gdk.Display;            use Gdk.Display;
 with langues_monde;          use langues_monde;
 with Gdk.Screen;             use Gdk.Screen;
 with Gtk.Button;             use Gtk.Button;
+with reseaux;                use reseaux;
 with Gtk.Table;              use Gtk.Table;
+with Gtk.Dialog;             use Gtk.Dialog;
+with Gtk.GEntry;             use Gtk.GEntry;
+with Gtk.Box;                use Gtk.Box;
+with Gtk.Container;          use Gtk.Container;
+with Gtk.Message_Dialog;     use Gtk.Message_Dialog;
 with Ada.Strings.Unbounded;  use Ada.Strings.Unbounded;
+with Ada.Unchecked_Deallocation ;
 with Gtk.Handlers;
 
 package ma_fenetre is
@@ -31,9 +43,19 @@ package ma_fenetre is
    type fenetre_lespace is access all fenetre_lespace_record'class;
    type langue_fenetre is (english, francais);
 
+
+   type dialogue_boite is record
+
+      widget : Gtk_Widget;
+      Box : Gtk_Box;
+      area : Gtk_Dialog;
+      msg : Gtk_Message_Dialog;
+      entree : Gtk_Entry;
+
+   end record;
    type Alignements is array (Positive range <>) of Gtk_Alignment;
 
-   procedure creer_fenetre (Object : out fenetre_lespace);
+   procedure creer_fenetre (Object : in out fenetre_lespace);
    --  Permet d'initialiser la fenetre principale.
    --  Le parametre "Object" est un type fenetre_lespace.
    
@@ -60,21 +82,24 @@ package ma_fenetre is
    --  Le parametre "F" est un type fenetre_lespace.
    --  Le parametre "Item" est le nouveau widget que l'on ajoute.
       
-      procedure ajouter_une_image
-       (F : not null access fenetre_lespace_record'Class;
-       Img_Name : String;
-       Img_Width : Gint;
-       Img_Height : Gint);
-      -- permet d'ajouter des images, icons ... a la fenetre.
-      -- "Img_Name" esl le nom du fichier image de l'on ajoute (avec extension).
-      -- "img_width" est un type Glib.Gint.
-      -- "img_height" est un type Glib.Gint.
+   procedure ajouter_une_image
+    (F : not null access fenetre_lespace_record'Class;
+      Img_Name : String;
+      Img_Width : Gint;
+      Img_Height : Gint);
+   -- permet d'ajouter des images, icons ... a la fenetre.
+   -- "Img_Name" esl le nom du fichier image de l'on ajoute (avec extension).
+   -- "img_width" est un type Glib.Gint.
+   -- "img_height" est un type Glib.Gint.
       
-      function image_ajouter
-       (F : not null access fenetre_lespace_record'Class) return Gdk_Pixbuf;
-      --  renvoie l'image ajouter avec la methode "ajouter_une_image".
+   function image_ajouter
+    (F : not null access fenetre_lespace_record'Class) return Gdk_Pixbuf;
+   --  renvoie l'image ajouter avec la methode "ajouter_une_image".
 
 private
+
+
+   --procedure free is new Ada.Unchecked_Deallocation(Integer,fenetre_lespace);
 
    package P_Callback is new Gtk.Handlers.Callback (Gtk_Widget_Record);
    use P_Callback;
@@ -105,7 +130,8 @@ private
     Screen : Gdk_Screen;
     Context : Gtk_Style_Context;
     Link_button : Gtk_Link_Button;
-    net : network;
+    net : network_t;
+    Win_abonnement : window_network_t;
     D1 : Data;
     Table : Gtk_Table;
     Header : Gtk_Header_Bar;

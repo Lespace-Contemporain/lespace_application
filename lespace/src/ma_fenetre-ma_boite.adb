@@ -136,15 +136,9 @@ package body ma_fenetre.ma_boite is
       
       F : fenetre_ma_boite;
       Offset : Stream_Element_Offset;
-      net : network;
    begin
       F := new fenetre_ma_boite_record;
-
-      creation_reseau (net);
-      ouverture_reseau (net);
-
-      Data'Write (reseau (net), F.D);
-      -- ^ envoi des donnees au reseau
+      ouverture_reseau (sock);
       
    end callback_connexion;
 

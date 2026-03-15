@@ -1,19 +1,24 @@
-#					     LESPACE CONTEMPORAIN SOFTWARE DEVELOPMENT
-
-# Makefile written by ZOKOUALOUMBA MOUSSOUNDA EMMANUEL DIMITRI
+#####################################################################
+#								   ##
+#		LESPACE CONTEMPORAIN SOFTWARE DEVELOPMENT	   ##
+#								   ##
+# Makefile written by ZOKOUALOUMBA MOUSSOUNDA EMMANUEL DIMITRI	   ##
+#								   ##
+# This Makefile building the lespace application for different	   ##
+# targets : Linux, Window, MacOS, Android, Apple
+#####################################################################
 
 ALR_COMPILE = alr build
 GPR_COMPILE = gprbuild
 PROJECT_FILE = lespace/lespace.gpr
 NEXT = cd
 
- all:
-	$(ADA_COMPILER) $(PROJECT_FILE)
+#		LINUX BUILD SYSTEM
 
-build :
+linux :
 	$(NEXT) lespace/ && $(ALR_COMPILE)
-run :
-	$(NEXT) lespace/src/ && alr run
+linux-run :
+	$(NEXT) lespace/ && alr run
 
 install :
 	$(NEXT) lespace/ && alr toolchain --select

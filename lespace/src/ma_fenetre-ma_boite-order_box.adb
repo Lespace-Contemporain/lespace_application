@@ -3,6 +3,7 @@
 --  la date du : 09 septembre 10 2024 au lieu de Mboukou (city).
 --  ce package contient les differentes methodes qui permettent de creer,
 --  modifier les fonctionnalitees de la fenetre principales du logiciels.
+with reseaux;                 use reseaux;
 with Gtk.Enums;               use Gtk.Enums;
 with Gdk.Pixbuf;              use Gdk.Pixbuf;
 with Glib.Error;              use Glib.Error;
@@ -405,7 +406,9 @@ package body ma_fenetre.ma_boite.order_box is
     F : order_my_box) is
 
     type Pointeur is access String;
-
+   
+    message : constant string := "je veux commander une boite";
+    message_recu : Pointeur;
     P0, P1, P2, P3, P4 : Pointeur;
     begin
 
@@ -422,7 +425,7 @@ package body ma_fenetre.ma_boite.order_box is
     quartier_user (F.User, P3.all);
     adresse_user (F.User, P4.all);
 
-
+      message_recu := new String'(String'Input (sock.Channel));
 
     --  envoie des donnees au reseau
 
@@ -440,10 +443,10 @@ package body ma_fenetre.ma_boite.order_box is
    Gtk_New (F.Button, "Suivant");
    Connect (F.Button, Signal_clicked, callback_suivant'Access, F);
 
-    Gdk_New_From_File (Pixbuf, "angle-droit.png", Erreur);
-    Pixbuf2 := Scale_Simple (Pixbuf, 20, 20);
-    Gtk_New (F.logo, Pixbuf2);
-    Set_Image (F.Button, F.logo);
+   -- Gdk_New_From_File (Pixbuf, "angle-droit.png", Erreur);
+   -- Pixbuf2 := Scale_Simple (Pixbuf, 20, 20);
+   -- Gtk_New (F.logo, Pixbuf2);
+   -- Set_Image (F.Button, F.logo);
     Set_Relief (F.Button, Relief_None);
     Set_Always_Show_Image (F.Button, True);
 
@@ -466,10 +469,10 @@ package body ma_fenetre.ma_boite.order_box is
 
    Gtk_New (F.Button, "Retour");
 
-    Gdk_New_From_File (Pixbuf, "angle-gauche.png", Erreur);
-    Pixbuf2 := Scale_Simple (Pixbuf, 20, 20);
-    Gtk_New (F.logo, Pixbuf2);
-    Set_Image (F.Button, F.logo);
+   -- Gdk_New_From_File (Pixbuf, "angle-gauche.png", Erreur);
+   -- Pixbuf2 := Scale_Simple (Pixbuf, 20, 20);
+   -- Gtk_New (F.logo, Pixbuf2);
+   -- Set_Image (F.Button, F.logo);
     Set_Relief (F.Button, Relief_None);
     Set_Always_Show_Image (F.Button, True);
 
@@ -495,8 +498,8 @@ package body ma_fenetre.ma_boite.order_box is
    Gtk_New (F.Srolled_Bar);
 
    style_fenetre (F);
-   Add_Provider_For_Screen (Get_Default,
-   +F.Provider, Gtk.Style_Provider.Priority_Application);
+   --Add_Provider_For_Screen (Get_Default,
+   --+F.Provider, Gtk.Style_Provider.Priority_Application);
 
    Set_Policy (F.Srolled_Bar,Policy_Always,Policy_Always);
 
@@ -507,11 +510,11 @@ package body ma_fenetre.ma_boite.order_box is
    F.Win.Add (F.Srolled_Bar);
 
    Gtk_New (F.Label, "Commander une boite");
-   Gdk_New_From_File (Pixbuf, "logo lespace.png", Erreur);
-   Pixbuf2 := Scale_Simple (Pixbuf,190,100);
-   Gtk_New (F.logo, Pixbuf2);
+   --Gdk_New_From_File (Pixbuf, "logo lespace.png", Erreur);
+   --Pixbuf2 := Scale_Simple (Pixbuf,190,100);
+   --Gtk_New (F.logo, Pixbuf2);
 
-   F.Box.Attach (F.logo, 0,0);
+   --F.Box.Attach (F.logo, 0,0);
    F.Box.Attach (F.Label, 0,100);
    F.Box.Attach (nom_champ_nom (F),0,200);
    F.Box.Attach (champ_saisir_nom (F),0,400);

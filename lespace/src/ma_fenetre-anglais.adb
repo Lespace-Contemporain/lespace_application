@@ -17,33 +17,61 @@ package body ma_fenetre.anglais is
    procedure callback_commander_boite
     (widget : access Gtk_Widget_Record'Class) is
 
-      type Pointeur is access langue_parlee;
-      S : constant String := "je commander une boite";
-      P : Pointeur;
+      S : constant String := "i want order a box";
       F : fenetre_lespace_anglais;
    begin
 
-      P := new langue_parlee'(langue (langues));
+      ouverture_reseau (Sock);
+
+      -- envoi de la demande au serveur
+      --reseaux.envoyer_donnees_reseau (Sock, S'Address);
+
+      -- reception de la reponse du serveur.
+
+     -- recevoir_donnees_reseau (Sock, F.Win);
+      Show_All (F.Win);
       
-      Put_Line (S);
-      Put_Line
-       ("language utilisee " & langue_parlee'Image (P.all));
-      --  envoie du string vers le reseau.
-      null;
    end callback_commander_boite;
 
    procedure callback_nouvel_abonnement
     (widget : access Gtk_Widget_Record'Class) is
 
-      S : constant String := "je veux m'abonner";
-      F : fenetre_lespace_anglais;
+      Message : constant String := "i want a subscription";
+      Message_recu : access String;
+
+      msg : Gtk_Message_Dialog;
+      F : fenetre_anglaise;
+
    begin
       
-      Put_line (S);
-      Put_line 
-      ("language utilisee " & langue_parlee'Image (langue (langues)));
-      --  envoie des donneea vers le reseau.
-      null;
+      -- envoi de la demande au serveur
+
+     String'Output (Sock.Channel, Message);
+     delay 0.2;
+
+      -- reception de la reponse du serveur.
+
+      Message_recu := new String'(String'Input (Sock.Channel));
+
+   --   Put_Line (Message_recu.all);
+
+      if message_recu.all /= " " then
+         F := new fenetre_lespace_anglais;
+         F.Win_abonnement := new window_network_record;
+         reseaux.space_fenetre_reseau_one (sock, F.Win_abonnement, message_recu.all);
+     else
+         Gtk.Message_Dialog.Gtk_New (Msg,null,0,message_error,buttons_ok,
+          Message => "An error occurred during your subscription request. Please try again later.");
+         msg.Show_All;
+      end if;
+       
+      if Msg.Run = Gtk_Response_ok then
+         Msg.Destroy;
+      else
+         Msg.Destroy;
+      end if;
+
+
    end callback_nouvel_abonnement;
 
    procedure callback_lien_francais
@@ -89,10 +117,10 @@ package body ma_fenetre.anglais is
       Gtk_New (box.Button, "Order your box");
       Connect (box.Button, Signal_Clicked, callback_commander_boite'Access);
 
-      ajouter_une_image (box, "panier.png", 30, 30);
-      Gtk_New (box.logo, image_ajouter (box));
+      --ajouter_une_image (box, "panier.png", 30, 30);
+      --Gtk_New (box.logo, image_ajouter (box));
 
-      Set_Image (box.Button, box.logo);
+      --Set_Image (box.Button, box.logo);
       Set_Relief (box.Button, Relief_None);
       Set_Always_Show_Image (box.Button, True);
 
@@ -111,10 +139,10 @@ package body ma_fenetre.anglais is
 
       Gtk_New (french.Button, "Francais");
 
-      ajouter_une_image (french, "globe.png", 50, 50);
-      Gtk_New (french.logo, image_ajouter (french));
+      --ajouter_une_image (french, "globe.png", 50, 50);
+      --Gtk_New (french.logo, image_ajouter (french));
 
-      Set_Image (french.Button, french.logo);
+      --Set_Image (french.Button, french.logo);
       Set_Relief (french.Button, Relief_None);
       Set_Image_Position (french.Button, Pos_Top);
       Set_Always_Show_Image (french.Button, True);
@@ -136,10 +164,10 @@ package body ma_fenetre.anglais is
 
       Gtk_New (contact.Button, "Contact us");
 
-      ajouter_une_image (contact, "enveloppe.png", 50, 50);
-      Gtk_New (contact.logo, image_ajouter (contact));
+      --ajouter_une_image (contact, "enveloppe.png", 50, 50);
+      --Gtk_New (contact.logo, image_ajouter (contact));
 
-      Set_Image (contact.Button, contact.logo);
+      --Set_Image (contact.Button, contact.logo);
       Set_Relief (contact.Button, Relief_None);
       Set_Image_Position (contact.Button, Pos_Top);
       Set_Always_Show_Image (contact.Button, True);
@@ -164,10 +192,10 @@ package body ma_fenetre.anglais is
                Signal_Clicked,
                callback_nouvel_abonnement'Access);
       
-      ajouter_une_image (sub, "subscription.png", 30, 30);
-      Gtk_New (sub.logo, image_ajouter (sub));
+      --ajouter_une_image (sub, "subscription.png", 30, 30);
+      --Gtk_New (sub.logo, image_ajouter (sub));
 
-      Set_Image (sub.Button, sub.logo);
+      --Set_Image (sub.Button, sub.logo);
       Set_Relief (sub.Button, Relief_None);
       Set_Always_Show_Image (sub.Button, True);
 
@@ -223,7 +251,7 @@ package body ma_fenetre.anglais is
       --   logo
 
       Gtk_New (Object.Align (5), 0.0, 0.0, 0.0, 0.0);
-      Object.Align (5).Add (logo_lespace (Object));
+     -- Object.Align (5).Add (logo_lespace (Object));
       Object.Table.Add (Object.Align (5));
       
       Object.Win.Add (Object.Table);

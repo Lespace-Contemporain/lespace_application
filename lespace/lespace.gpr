@@ -1,3 +1,5 @@
+with "aws.gpr";
+with "gnatcoll.gpr";
 with "config/lespace_config.gpr";
 with "/home/dimitrilesdos/Lespace_Contemporain/lespace_application/lespace/alire/cache/dependencies/gtkada_24.0.0_80c56171/src/gtkada.gpr";
 

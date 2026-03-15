@@ -10,9 +10,7 @@
 To build Lespace application project the followings tools should be install :
 
 * alire
-
-* gnat community
-
+* make
 * gprbuild
 
 run :
@@ -29,10 +27,10 @@ to update the project on github platform of Lespace Contemporain run :
 
 	 make update
 
-to build the application use the following command :
+to build the application on Linux system use the following command :
 
-	 make build
+	 make linux
 
-now to run the application use :
+now to run the application on Linux use :
 
-	make run
+	make linux-run

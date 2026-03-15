@@ -8,6 +8,7 @@ with Gtk;                   use Gtk;
 with Gtk.Main;              use Gtk.Main;
 with ma_fenetre;            use ma_fenetre;
 with Glib.Error;            use Glib.Error;
+with aws.response;          use aws.response;
 with ma_fenetre.anglais;    use ma_fenetre.anglais;
 with Ada.Directories;       use Ada.Directories;
 with Ada.Text_IO;           use Ada.Text_IO;
@@ -16,6 +17,7 @@ with Ada.Integer_Text_IO;   use Ada.Integer_Text_IO;
 with Gtk.Style_Provider;    use Gtk.Style_Provider;
 with ma_fenetre.contactez;  use ma_fenetre.contactez;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+with System;                 use System;
 
 package body ma_fenetre is
 
@@ -54,9 +56,9 @@ package body ma_fenetre is
 
       -- ajoute le logo_lespace au container
       
-      Gtk_New (F.Align (5), 0.0, 0.0, 0.0, 0.0);
-      F.Align (5).Add (logo_lespace (F));
-      F.Table.Add (F.Align (5));
+      --Gtk_New (F.Align (5), 0.0, 0.0, 0.0, 0.0);
+     -- F.Align (5).Add (logo_lespace (F));
+      --F.Table.Add (F.Align (5));
 
    end creer_container;
 
@@ -67,8 +69,8 @@ package body ma_fenetre is
    procedure bouton_commander_une_boite (F : fenetre_lespace) is
    begin
 
-      Ajouter_une_image (F, "panier.png", 30, 30);
-      Gtk_New (F.logo, image_ajouter (F));
+   --   Ajouter_une_image (F, "panier.png", 30, 30);
+   --   Gtk_New (F.logo, image_ajouter (F));
 
       Gtk_New (F.Button, Nom_bouton_commander_boite);
    
@@ -97,9 +99,9 @@ package body ma_fenetre is
    procedure bouton_nouvel_abonnement (F : fenetre_lespace) is
    begin
 
-      Ajouter_une_image (F, "subscription.png", 30, 30);
+   --   Ajouter_une_image (F, "subscription.png", 30, 30);
       
-      Gtk_New (F.logo, image_ajouter (F));
+   --   Gtk_New (F.logo, image_ajouter (F));
 
       Gtk_New (F.Button, Nom_bouton_nouvel_abonnement);
 
@@ -128,9 +130,9 @@ package body ma_fenetre is
    procedure bouton_lien_contactez_nous (F : fenetre_lespace) is
    begin
 
-      Ajouter_une_image (F, "enveloppe.png", 50, 50);
+   --   Ajouter_une_image (F, "enveloppe.png", 50, 50);
 
-      Gtk_New (F.logo, image_ajouter (F));
+   --   Gtk_New (F.logo, image_ajouter (F));
 
       Gtk_New (F.Button,
                Nom_bouton_lien_contactez_nous);
@@ -162,9 +164,9 @@ package body ma_fenetre is
    procedure bouton_lien_english (F : fenetre_lespace) is
    begin
 
-      Ajouter_une_image (F, "globe.png", 50, 50);
+      --Ajouter_une_image (F, "globe.png", 50, 50);
 
-      Gtk_New (F.logo, image_ajouter (F));
+      --Gtk_New (F.logo, image_ajouter (F));
 
       Gtk_New (F.Button,
                Nom_bouton_lien_english);
@@ -192,24 +194,25 @@ package body ma_fenetre is
 --  creer_fenetre  --
 ---------------------
 
-   procedure creer_fenetre (Object : out fenetre_lespace) is 
+   procedure creer_fenetre (Object : in out fenetre_lespace) is 
    begin
 
       Gtk_New (Object.Win);
       modifier_langue (langues, Francais);
+      Object.Win.Set_Title ("Lespace");
       Object.Win.Fullscreen;
       
-      ajouter_une_image (Object, "logo simple.jpg", 1, 1);
-      Set_Icon (Object.Win, image_ajouter (Object));
+      --ajouter_une_image (Object, "logo simple.jpg", 1, 1);
+      --Set_Icon (Object.Win, image_ajouter (Object));
       creer_container (Object);
-      style_fenetre (Object);
+      --style_fenetre (Object);
 
       Connect (Object.Win, Gtk.Widget.Signal_Destroy, fermer_fenetre'Access);
 
       Object.Win.Add (container (Object));
 
-      Add_Provider_For_screen (Get_Default,
-       +Object.Provider, Gtk.Style_Provider.Priority_Application);
+      --Add_Provider_For_screen (Get_Default,
+      -- +Object.Provider, Gtk.Style_Provider.Priority_Application);
 
    end creer_fenetre;
 
@@ -230,13 +233,13 @@ package body ma_fenetre is
    procedure logo_lespace (F : access fenetre_lespace_record'Class) is
    begin
 
-      Ajouter_une_image (F, "logo lespace.png", 190, 100);
+      --Ajouter_une_image (F, "logo lespace.png", 190, 100);
       
-      Gtk_New (F.logo, image_ajouter (F));
+      --Gtk_New (F.logo, image_ajouter (F));
 
       style_fenetre (F);
-      Add_Provider (Get_Style_Context (F.logo),
-       +F.Provider, Gtk.Style_Provider.Priority_Application);
+      --Add_Provider (Get_Style_Context (F.logo),
+      -- +F.Provider, Gtk.Style_Provider.Priority_Application);
    end logo_lespace;
 
 -------------------------
@@ -366,12 +369,14 @@ package body ma_fenetre is
    begin
 
       F.D1.Message := To_Unbounded_String ("Je veux commander une boite");
+      ouverture_reseau (Sock);
 
-      creation_reseau (F.net);
-      ouverture_reseau (F.net);
+      -- envoi de la demande au serveur
+      --reseaux.envoyer_donnees_reseau (Sock, F.D1.Message'Address);
 
-      Data'Write (reseau (F.net), F.D1);
-
+      -- reception de la reponse du serveur.
+   
+    --  Show_All (recevoir_donnees_reseau (Sock));
       
    end callback_commander_boite;
 
@@ -382,17 +387,47 @@ package body ma_fenetre is
    procedure callback_nouvel_abonnement
    (widget : access Gtk_Widget_Record'Class;
    F : fenetre_lespace) is
+
+      Message : constant String := "Je veux m'abonner";
+
+      Message_recu : access string;
+
+      F_network : dialogue_boite;
+      var : Gint := 0;
+
    begin
       
-      F.D1.Message := To_Unbounded_String ("Je veux m'abonner");
+      -- envoi de la demande au serveur
 
-       creation_reseau (F.net);
-       ouverture_reseau (F.net);
+     String'Output (Sock.Channel, Message);
+     delay 0.2;
+
+      -- reception de la reponse du serveur.
+
+      Message_recu := new String'(String'Input (Sock.Channel));
+
+      --Put_Line (Message_recu.all);
+
+      if message_recu.all /= " " then
+         F.Win_abonnement := new window_network_record;
+         reseaux.space_fenetre_reseau_one (sock, F.Win_abonnement, message_recu.all);
+     else
+         Gtk.Message_Dialog.Gtk_New (F_network.Msg,F.Win,0,message_error,buttons_ok,
+          Message => "Une erreur est survenue lors de votre demande d'abonnement. Veuillez reessayer plus tard.");
+         F_network.Msg.Show_All;
+      end if;
        
-      Data'Write (reseau (F.net), F.D1);
+      --if F_network.Msg.Run = Gtk_Response_ok then
+      --   F_network.Msg.Destroy;
+      --else
+      --   F_network.Msg.Destroy;
+      ---end if;
 
-      fermeture_reseau (F.net);
-      
+      --Win := new Gtk_Window_Record;
+      --F.Win.Destroy;
+
+ --     Gtk.Main.Main;
+
    end callback_nouvel_abonnement;
 
 ------------------------------------

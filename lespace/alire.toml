@@ -9,3 +9,5 @@ maintainers-logins = ["Dimitrilesdos"]
 executables = ["lespace"]
 [[depends-on]]
 gtkada = "^24.0.0"
+[[depends-on]]
+aws = "^24.0.0"
