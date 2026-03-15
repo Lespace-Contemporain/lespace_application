@@ -39,7 +39,7 @@ package body ma_fenetre.ma_boite.order_box.anglais is
    function nom_champ_numero (F : order_my_box_english) return Gtk_Label is
    begin
    
-   Gtk_New (F.Label, "Number or Mail");
+   Gtk_New (F.Label, "Number or Mail (Phone number is recommanded)");
    return F.Label;
 
    end nom_champ_numero;
@@ -328,7 +328,7 @@ package body ma_fenetre.ma_boite.order_box.anglais is
    function nom_champ_ville (F : order_my_box_english) return Gtk_Label is
    begin
 
-   Gtk_New (F.Label, "Name your town");
+   Gtk_New (F.Label, "Name your province");
    return F.Label;
 
    end nom_champ_ville;
@@ -351,7 +351,7 @@ package body ma_fenetre.ma_boite.order_box.anglais is
    function nom_champ_quartier (F : order_my_box_english) return Gtk_Label is
    begin
 
-   Gtk_New (F.Label, "Name your street");
+   Gtk_New (F.Label, "Name your town");
    return F.Label;
 
    end nom_champ_quartier;
@@ -374,7 +374,7 @@ package body ma_fenetre.ma_boite.order_box.anglais is
    function nom_champ_adresse (F : order_my_box_english) return Gtk_Label is
    begin
 
-   Gtk_New (F.Label, "your address");
+   Gtk_New (F.Label, "Name your street");
    return F.Label;
 
    end nom_champ_adresse;
@@ -399,23 +399,45 @@ package body ma_fenetre.ma_boite.order_box.anglais is
     F : order_my_box_english) is
 
     type Pointeur is access String;
+   
+    message : constant string := "i want order a box";
+    message_recu : Pointeur;
+    Check : integer := 0;
+    F_network : dialogue_boite;
 
-    P, P1, P2, P3, P4 : Pointeur;
+    P0, P1, P2, P3, P4 : Pointeur;
     begin
 
-    P := new String'(Get_Text (F.Entree));
+    P0 := new String'(Get_Text (F.Entree));
     P1 := new String'(Get_Text (F.Entree1));
     P2 := new String'(Get_Text (F.Entree2));
     P3 := new String'(Get_Text (F.Entree3));
     P4 := new String'(Get_Text (F.Entree4));
 
-    --  envoie des donnees au reseau
+    String'Output (sock.Channel, message);
+    check := Integer'Input(sock.Channel);
 
-    Put_Line (P.all);
-    Put_line (P1.all);
-    Put_Line (P2.all);
-    Put_Line (P3.all);
-    Put_line (P4.all);
+     if check = 1 then
+       String'Output (sock.Channel, P0.all); -- nom complet
+       String'Output (sock.Channel, P1.all); -- numero ou mail
+       String'Output (sock.Channel, To_String(P)); -- pays
+       String'Output (sock.Channel, P2.all); -- province
+       String'Output (sock.Channel, P3.all); -- ville
+       String'Output (sock.Channel, P4.all); -- quartier
+
+      end if;
+
+      message_recu := new String'(String'Input (sock.Channel));
+
+      if message_recu.all /= " " then
+         F.Win_abonnement := new window_network_record;
+         reseaux.space_fenetre_reseau_one (sock, F.Win_abonnement, message_recu.all);
+     else
+         Gtk.Message_Dialog.Gtk_New (F_network.Msg,F.Win,0,message_error,buttons_ok,
+          Message => "An error occurred during your subscription request. Please try again later.");
+         F_network.Msg.Show_All;
+      end if;
+
 
     end callback_suivant;
 
@@ -429,10 +451,10 @@ package body ma_fenetre.ma_boite.order_box.anglais is
    Gtk_New (F.Button, "Next");
    Pu.Connect (F.Button, Signal_Clicked, callback_suivant'Access, F);
 
-    Gdk_New_From_File (Pixbuf, "angle-droit.png", Erreur);
-    Pixbuf2 := Scale_Simple (Pixbuf, 20, 20);
-    Gtk_New (F.logo, Pixbuf2);
-    Set_Image (F.Button, F.logo);
+   -- Gdk_New_From_File (Pixbuf, "angle-droit.png", Erreur);
+   -- Pixbuf2 := Scale_Simple (Pixbuf, 20, 20);
+   -- Gtk_New (F.logo, Pixbuf2);
+   -- Set_Image (F.Button, F.logo);
     Set_Relief (F.Button, Relief_None);
     Set_Always_Show_Image (F.Button, True);
 
@@ -463,10 +485,10 @@ package body ma_fenetre.ma_boite.order_box.anglais is
    Gtk_New (F.Button, "Back");
    Connect (F.Button, Signal_Clicked, fermer_fenetre'Access);
 
-    Gdk_New_From_File (Pixbuf, "angle-gauche.png", Erreur);
-    Pixbuf2 := Scale_Simple (Pixbuf, 20, 20);
-    Gtk_New (F.logo, Pixbuf2);
-    Set_Image (F.Button, F.logo);
+   -- Gdk_New_From_File (Pixbuf, "angle-gauche.png", Erreur);
+   -- Pixbuf2 := Scale_Simple (Pixbuf, 20, 20);
+   -- Gtk_New (F.logo, Pixbuf2);
+   -- Set_Image (F.Button, F.logo);
     Set_Relief (F.Button, Relief_None);
     Set_Always_Show_Image (F.Button, True);
 
@@ -490,8 +512,8 @@ package body ma_fenetre.ma_boite.order_box.anglais is
    F.Win.Fullscreen;
    Connect (F.Win, Signal_Destroy, fermer_fenetre'access);
    style_fenetre (F);
-   Add_Provider_For_Screen (Get_Default,
-   +F.Provider, Gtk.Style_Provider.Priority_Application);
+   --Add_Provider_For_Screen (Get_Default,
+   --+F.Provider, Gtk.Style_Provider.Priority_Application);
    Gtk_New (F.Srolled_Bar);
    Set_Policy (F.Srolled_Bar,Policy_Always,Policy_Always);
    Gtk_New (F.Box);
@@ -499,10 +521,10 @@ package body ma_fenetre.ma_boite.order_box.anglais is
    F.Srolled_Bar.Add (F.Box);
    F.Win.Add (F.Srolled_Bar);
    Gtk_New (F.Label, "order a internet box");
-   Gdk_New_From_File (Pixbuf, "logo lespace.png", Erreur);
-   Pixbuf2 := Scale_Simple (Pixbuf,190,100);
-   Gtk_New (F.logo, Pixbuf2);
-   F.Box.Attach (F.logo, 0,0);
+   --Gdk_New_From_File (Pixbuf, "logo lespace.png", Erreur);
+   --Pixbuf2 := Scale_Simple (Pixbuf,190,100);
+   --Gtk_New (F.logo, Pixbuf2);
+   --F.Box.Attach (F.logo, 0,0);
    F.Box.Attach (F.Label, 0,100);
    F.Box.Attach (nom_champ_nom (F),0,200);
    F.Box.Attach (champ_saisir_nom (F),0,400);

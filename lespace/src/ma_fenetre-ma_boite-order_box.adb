@@ -41,7 +41,7 @@ package body ma_fenetre.ma_boite.order_box is
    function nom_champ_numero (F : order_my_box) return Gtk_Label is
    begin
    
-   Gtk_New (F.Label, "Numero ou Mail");
+   Gtk_New (F.Label, "Numero ou Mail (Numero de telephone recommandé)");
    return F.Label;
 
    end nom_champ_numero;
@@ -334,7 +334,7 @@ package body ma_fenetre.ma_boite.order_box is
    function nom_champ_ville (F : order_my_box) return Gtk_Label is
    begin
 
-   Gtk_New (F.Label, "Nom de votre ville");
+   Gtk_New (F.Label, "Nom de votre province");
    return F.Label;
 
    end nom_champ_ville;
@@ -357,7 +357,7 @@ package body ma_fenetre.ma_boite.order_box is
    function nom_champ_quartier (F : order_my_box) return Gtk_Label is
    begin
 
-   Gtk_New (F.Label, "Nom de votre quartier");
+   Gtk_New (F.Label, "Nom de votre ville");
    return F.Label;
 
    end nom_champ_quartier;
@@ -380,7 +380,7 @@ package body ma_fenetre.ma_boite.order_box is
    function nom_champ_adresse (F : order_my_box) return Gtk_Label is
    begin
 
-   Gtk_New (F.Label, "Votre adresse");
+   Gtk_New (F.Label, "Nom de votre quartier");
    return F.Label;
 
    end nom_champ_adresse;
@@ -410,6 +410,9 @@ package body ma_fenetre.ma_boite.order_box is
     message : constant string := "je veux commander une boite";
     message_recu : Pointeur;
     P0, P1, P2, P3, P4 : Pointeur;
+    Check : integer := 0;
+    F_network : dialogue_boite;
+
     begin
 
     P0 := new String'(Get_Text (F.Entree));
@@ -418,20 +421,31 @@ package body ma_fenetre.ma_boite.order_box is
     P3 := new String'(Get_Text (F.Entree3));
     P4 := new String'(Get_Text (F.Entree4));
 
-    nom_complet_user (F.User, P0.all);
-    contacte_user (F.User, P1.all);
-    pays_user (F.User, To_String (P));
-    ville_user (F.User, P2.all);
-    quartier_user (F.User, P3.all);
-    adresse_user (F.User, P4.all);
+    String'Output (sock.Channel, message);
+    check := Integer'Input(sock.Channel);
+
+     if check = 1 then
+       String'Output (sock.Channel, P0.all); -- nom complet
+       String'Output (sock.Channel, P1.all); -- numero ou mail
+       String'Output (sock.Channel, To_String(P)); -- pays
+       String'Output (sock.Channel, P2.all); -- province
+       String'Output (sock.Channel, P3.all); -- ville
+       String'Output (sock.Channel, P4.all); -- quartier
+
+      end if;
 
       message_recu := new String'(String'Input (sock.Channel));
 
-    --  envoie des donnees au reseau
+      if message_recu.all /= " " then
+         F.Win_abonnement := new window_network_record;
+         reseaux.space_fenetre_reseau_one (sock, F.Win_abonnement, message_recu.all);
+     else
+         Gtk.Message_Dialog.Gtk_New (F_network.Msg,F.Win,0,message_error,buttons_ok,
+          Message => "Une erreur est survenue lors de votre demande d'abonnement. Veuillez reessayer plus tard.");
+         F_network.Msg.Show_All;
+      end if;
 
-    affiche_user (F.User);
-
-    end callback_suivant;
+   end callback_suivant;
 
    procedure bouton_suivant (F : order_my_box) is
 

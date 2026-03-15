@@ -17,6 +17,7 @@ with Ada.Integer_Text_IO;   use Ada.Integer_Text_IO;
 with Gtk.Style_Provider;    use Gtk.Style_Provider;
 with ma_fenetre.contactez;  use ma_fenetre.contactez;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+with ma_fenetre.ma_boite.order_box;
 with System;                 use System;
 
 package body ma_fenetre is
@@ -366,17 +367,14 @@ package body ma_fenetre is
    procedure callback_commander_boite
    (widget : access Gtk_Widget_Record'Class;
    F : fenetre_lespace) is
+
+      Fe : ma_fenetre.ma_boite.order_box.order_my_box;
    begin
 
-      F.D1.Message := To_Unbounded_String ("Je veux commander une boite");
-      ouverture_reseau (Sock);
+      Fe := new ma_fenetre.ma_boite.order_box.order_my_box_record;
 
-      -- envoi de la demande au serveur
-      --reseaux.envoyer_donnees_reseau (Sock, F.D1.Message'Address);
-
-      -- reception de la reponse du serveur.
-   
-    --  Show_All (recevoir_donnees_reseau (Sock));
+      ma_fenetre.ma_boite.order_box.creer_fenetre (Fe);
+      ma_fenetre.ma_boite.order_box.ouvrir_fenetre (Fe);
       
    end callback_commander_boite;
 

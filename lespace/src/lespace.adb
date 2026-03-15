@@ -14,7 +14,6 @@ pragma Ada_2022;
 with Gtk.Main;    use Gtk.Main;
 with reseaux;     use reseaux;
 with ma_fenetre;  use ma_fenetre;
-with ma_fenetre.ma_boite.order_box;    use ma_fenetre.ma_boite.order_box;    
 
 procedure lespace is
 
@@ -29,12 +28,11 @@ procedure lespace is
 
    end initialize_reseau;
 
-   --F : fenetre_lespace;
-   F : order_my_box;
+   F : fenetre_lespace;
 
 begin
 
-   F := new order_my_box_record;
+   F := new fenetre_lespace_record;
 
    Gtk.Main.Init;
 

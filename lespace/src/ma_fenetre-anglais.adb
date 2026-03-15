@@ -11,26 +11,21 @@ with Ada.Text_IO;                    use Ada.Text_IO;
 with Gdk.Pixbuf;                     use Gdk.Pixbuf;
 with Glib.Error;                     use Glib.Error;
 with Gtk.Enums;                      use Gtk.Enums;
+with ma_fenetre.ma_boite.order_box.anglais;
 
 package body ma_fenetre.anglais is
 
    procedure callback_commander_boite
     (widget : access Gtk_Widget_Record'Class) is
 
-      S : constant String := "i want order a box";
-      F : fenetre_lespace_anglais;
+      F : ma_fenetre.ma_boite.order_box.anglais.order_my_box_english;
    begin
-
-      ouverture_reseau (Sock);
-
-      -- envoi de la demande au serveur
-      --reseaux.envoyer_donnees_reseau (Sock, S'Address);
-
-      -- reception de la reponse du serveur.
-
-     -- recevoir_donnees_reseau (Sock, F.Win);
-      Show_All (F.Win);
       
+      F := new ma_fenetre.ma_boite.order_box.anglais.order_my_box_english_record;
+
+      ma_fenetre.ma_boite.order_box.anglais.create_window (F);
+      ma_fenetre.ma_boite.order_box.anglais.open_window (F);
+
    end callback_commander_boite;
 
    procedure callback_nouvel_abonnement
