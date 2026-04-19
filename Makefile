@@ -25,5 +25,5 @@ install :
 
 update :
 	git add .
-	git commit -m "commit"
+	git commit -m "master"
 	git push -u origin main
