@@ -2,10 +2,9 @@
 #								   ##
 #		LESPACE CONTEMPORAIN SOFTWARE DEVELOPMENT	   ##
 #								   ##
-# Makefile written by ZOKOUALOUMBA MOUSSOUNDA EMMANUEL DIMITRI	   ##
 #								   ##
 # This Makefile building the lespace application for different	   ##
-# targets : Linux, Window, MacOS, Android, Apple
+# targets : Linux, Window, MacOS, Android, Apple...		   ##
 #####################################################################
 
 ALR_COMPILE = alr build
