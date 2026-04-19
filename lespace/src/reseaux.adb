@@ -1,6 +1,7 @@
 pragma Ada_2022;
 
 with GTK.Widget;     use GTK.Widget;
+with Ada.Real_Time;  use Ada.Real_Time;
 
 package body reseaux is
 
@@ -8,6 +9,8 @@ package body reseaux is
 procedure close_window_callback (Window : access Gtk_Widget_Record'Class) is
    pragma Unreferenced (Window);
 begin
+   --Integer'Output(Sock.Channel, 52);   -- This number indicate to server that communication was cancelled
+   fermeture_reseau (Sock);
    Gtk.Widget.Destroy (Window);
 end close_window_callback;
 
@@ -19,12 +22,11 @@ end close_window_callback;
    begin
 
       Create_Socket (net.Socket);
-
-      Set_Socket_Option (
-            net.Socket, 
-            Socket_Level,
-            (Reuse_Address, True));
-
+      Set_Socket_Option(
+         net.Socket,
+         Socket_Level,
+         (Reuse_Address, True));
+   
    
    end creation_reseau;
 
@@ -37,7 +39,7 @@ end close_window_callback;
 
 
    net.Address.Addr := Addresses (Get_Host_By_Name (Host_Name),1);
-   net.Address.Port := 5876;
+   net.Address.Port := 5877;
 
    Connect_Socket (net.Socket, net.Address);
    net.Channel := Stream (net.Socket);
@@ -85,13 +87,18 @@ end close_window_callback;
    begin
 
       Data := new String'(Gtk.GEntry.Get_Text (Window.entree));   -- reception de la reponse de l'utilisateur.
+      --loop
       if data.all'length > 0 then
          Entier := Integer'Value (Data.all);
          Integer'Output (Sock.Channel, Entier);
          --free (data);
          -- ici, on peut envoyer les donnees au serveur pour continuer la communication
          Data := new String'(String'Input (Sock.Channel));
-         Window.Label.Set_Text (Data.all);
+         if data.all'length > 0 then
+            Window.Label.Set_Text (Data.all);
+         else
+            Window.win.destroy;
+         end if;
          --Data := new String'(String'Input (Sock.Channel));
          --Window.Label.Set_Text (Data.all);
         -- free(data);
@@ -99,6 +106,7 @@ end close_window_callback;
       else
          Window.Label.Set_Text ("Please enter a valid number.");
       end if;
+      --end loop;
       --free(data);
 
    end callback_bouton_suivant;

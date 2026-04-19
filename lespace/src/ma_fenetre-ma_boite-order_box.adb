@@ -415,6 +415,9 @@ package body ma_fenetre.ma_boite.order_box is
 
     begin
 
+      creation_reseau (Sock);
+      ouverture_reseau (Sock);
+
     P0 := new String'(Get_Text (F.Entree));
     P1 := new String'(Get_Text (F.Entree1));
     P2 := new String'(Get_Text (F.Entree2));

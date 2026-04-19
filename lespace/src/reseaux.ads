@@ -72,7 +72,7 @@ procedure fermeture_reseau (net : network_t);
 --------------------------------------------
 
 --   These function allows to initialize and create one GTK_Window which display
---   the server messages. These Window is temporary.
+--   the server messages. These Window are temporaries.
 --   "Window" parameter is Window_Network_t type.
 --   "message_from_server" parameter is the message to display to the Window.
 
@@ -91,8 +91,7 @@ private
    package U2_Callback is new Gtk.Handlers.User_Callback
     (Gtk_Widget_Record, window_network_t);
    use U2_Callback;
-
-
+   
    type window_network_record is record
 
       Win : GTK_Window;

@@ -64,7 +64,7 @@ package body ma_fenetre.ma_boite.order_box.anglais is
     F : order_my_box_english) is
     pragma Unreferenced (widget);
 
-    P : Unbounded_String;
+    --P : Unbounded_String;
     begin
 
     P := To_Unbounded_String (Get_Active_Text (Widget));
@@ -408,6 +408,10 @@ package body ma_fenetre.ma_boite.order_box.anglais is
     P0, P1, P2, P3, P4 : Pointeur;
     begin
 
+      creation_reseau (Sock);
+      ouverture_reseau (Sock);
+
+
     P0 := new String'(Get_Text (F.Entree));
     P1 := new String'(Get_Text (F.Entree1));
     P2 := new String'(Get_Text (F.Entree2));
@@ -438,8 +442,7 @@ package body ma_fenetre.ma_boite.order_box.anglais is
          F_network.Msg.Show_All;
       end if;
 
-
-    end callback_suivant;
+   end callback_suivant;
 
    procedure bouton_suivant (F : order_my_box_english) is
 

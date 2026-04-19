@@ -30,16 +30,10 @@ package body ma_fenetre is
    begin
 
       Gtk_New (F.Table, 0, 0, True);
-
-      --  ajoute le bouton_lien_english au container
       
-      Gtk_New (F.Align (1), 0.4, 0.1, 0.0, 0.0);
-      F.Align (1).Add (ma_fenetre.bouton_lien_english (F));
-      F.Table.Add (F.Align (1));
-
       --  ajoute le bouton_lien_contactez_nous au container
       
-      Gtk_New (F.Align (2), 0.6, 0.1, 0.0, 0.0);
+      Gtk_New (F.Align (2), 0.5, 0.1, 0.0, 0.0);
       F.Align (2).Add (bouton_lien_contactez_nous (F));
       F.Table.Add (F.Align (2));
 
@@ -157,39 +151,6 @@ package body ma_fenetre is
       return F.Button;
 
    end bouton_lien_contactez_nous;
-
---------------------------
---  bouton_lien_english --
---------------------------
-
-   procedure bouton_lien_english (F : fenetre_lespace) is
-   begin
-
-      --Ajouter_une_image (F, "globe.png", 50, 50);
-
-      --Gtk_New (F.logo, image_ajouter (F));
-
-      Gtk_New (F.Button,
-               Nom_bouton_lien_english);
-
-      Set_Image (F.Button, F.logo);
-      Set_Relief (F.Button, Relief_None);
-      Set_Image_Position (F.Button, Pos_Top);
-      Set_Always_Show_Image (F.Button, True);
-
-      Connect (F.Button, Signal_Clicked, callback_lien_english'Access);
-
-   end bouton_lien_english;
-
--- function
-
-   function bouton_lien_english (F : fenetre_lespace) return Gtk_Button is
-   begin
-
-      bouton_lien_english (F);
-      return F.Button;
-
-   end bouton_lien_english;
 
 ---------------------
 --  creer_fenetre  --
@@ -394,6 +355,9 @@ package body ma_fenetre is
       var : Gint := 0;
 
    begin
+
+      creation_reseau (Sock);
+      ouverture_reseau (Sock);
       
       -- envoi de la demande au serveur
 

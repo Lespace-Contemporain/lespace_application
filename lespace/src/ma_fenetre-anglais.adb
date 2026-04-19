@@ -38,6 +38,9 @@ package body ma_fenetre.anglais is
       F : fenetre_anglaise;
 
    begin
+
+      creation_reseau (Sock);
+      ouverture_reseau (Sock);
       
       -- envoi de la demande au serveur
 
@@ -128,32 +131,7 @@ package body ma_fenetre.anglais is
 
     return box.Button;
    end button_order_box;
-
-   procedure create_button_francais (french : fenetre_anglaise) is
-   begin
-
-      Gtk_New (french.Button, "Francais");
-
-      --ajouter_une_image (french, "globe.png", 50, 50);
-      --Gtk_New (french.logo, image_ajouter (french));
-
-      --Set_Image (french.Button, french.logo);
-      Set_Relief (french.Button, Relief_None);
-      Set_Image_Position (french.Button, Pos_Top);
-      Set_Always_Show_Image (french.Button, True);
-
-      Connect (french.Button, Signal_Clicked, callback_lien_francais'Access);
-
-   end create_button_francais;
-
-   function button_francais (french : fenetre_anglaise) return Gtk_Button is
-   begin
-
-    create_button_francais (french);
-
-    return french.Button;
-   end button_francais;
-
+   
    procedure create_button_contact_us (contact : fenetre_anglaise) is
    begin
 
@@ -219,15 +197,9 @@ package body ma_fenetre.anglais is
       Gtk_New (Object.Table, 0, 0, True);
       Gtk_New (Object.Table, 0, 0, True);
 
-      --  francais
-
-      Gtk_New (Object.Align (1), 0.4, 0.1, 0.0, 0.0);
-      Object.Align (1).Add (button_francais (Object));
-      Object.Table.Add (Object.Align (1));
-
       --  contact us
 
-      Gtk_New (Object.Align (2), 0.6, 0.1, 0.0, 0.0);
+      Gtk_New (Object.Align (2), 0.5, 0.1, 0.0, 0.0);
       Object.Align (2).Add (button_contact_us (Object));
       Object.Table.Add (Object.Align (2));
 

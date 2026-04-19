@@ -43,7 +43,6 @@ package ma_fenetre is
    type fenetre_lespace is access all fenetre_lespace_record'class;
    type langue_fenetre is (english, francais);
 
-
    type dialogue_boite is record
 
       widget : Gtk_Widget;
@@ -94,7 +93,7 @@ package ma_fenetre is
       
    function image_ajouter
     (F : not null access fenetre_lespace_record'Class) return Gdk_Pixbuf;
-   --  renvoie l'image ajouter avec la methode "ajouter_une_image".
+   --  renvoie l'image ajouter avec la methode "ajouter_une_image".   
 
 private
 
@@ -187,20 +186,6 @@ private
        -- Permet de connecter le bouton lien "Contactez-nous" a
        -- un evenement lui permettant d'acceder a la page pour contacter
        -- le service client Lespace Contemporain.
-      
-      procedure bouton_lien_english (F : fenetre_lespace);
-      --  Permet de creer le bouton lien "English".
-      --  le parametre "F" est un type fenetre_lespace.
-      
-      function bouton_lien_english (F : fenetre_lespace) return Gtk_Button;
-      --  renvoie le bouton english.
-      --  Le parametre "F" est un type fenetre_lespace.
-      
-      procedure callback_lien_english
-       (widget : access Gtk_Widget_Record'Class);
-      --  Permet de connecter le bouton lien "English" a
-      --  un evenement lui permettant de changer la langue de la fenetre
-      --  en langue anglaise.
       
       procedure logo_lespace
        (F : access fenetre_lespace_record'Class);

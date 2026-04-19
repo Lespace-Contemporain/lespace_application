@@ -9,35 +9,25 @@
 -- necessaire a son usage.                                                             --
 -----------------------------------------------------------------------------------------
 
+
 pragma Ada_2022;
 
-with Gtk.Main;    use Gtk.Main;
-with reseaux;     use reseaux;
-with ma_fenetre;  use ma_fenetre;
+with main;   use main;
 
 procedure lespace is
 
-   Task initialize_reseau;
 
-   Task body initialize_reseau is
-   begin
+ --  Task initialize_reseau;
+
+   --Task body initialize_reseau is
+   --begin
       -- Initialisation du reseau
 
-      creation_reseau (Sock);
-      ouverture_reseau (Sock);
+     -- creation_reseau (Sock);
+      --ouverture_reseau (Sock);
 
-   end initialize_reseau;
-
-   F : fenetre_lespace;
+--   end initialize_reseau;
 
 begin
-
-   F := new fenetre_lespace_record;
-
-   Gtk.Main.Init;
-
-   creer_fenetre (F);
-   ouvrir_fenetre (F);
-
-   Gtk.Main.Main;
+   space_software_start;
 end lespace;
