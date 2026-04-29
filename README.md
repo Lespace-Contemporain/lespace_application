@@ -3,10 +3,8 @@
 #		Lespace Application 
 
 To build Lespace application project the followings tools should be install :
-
 alire,
-make (optional),
-gprbuild
+make.
 
 * Linux system
 
