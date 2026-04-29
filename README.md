@@ -8,7 +8,21 @@ To build Lespace application project the followings tools should be install :
 * make (optional)
 * gprbuild
 
-run :
+* Linux
+
+To install alire run :
+
+	sudo apt-get install alire
+
+* Others systems
+
+To install alire on others systems go to https://alire.ada.dev/ and download alire for your system.
+
+Now after alire installed clone the project :
+
+	git clone https://github.com/Lespace-Contemporain/lespace_application.git
+
+enter into the directory "cd lespace_application" and run :
 
 	make install
 
@@ -16,16 +30,16 @@ this command install the tools and library used by Lespace application. you shou
 
 * gnat native version and gprbuild
 
-like tools and continue the installing
+like tools and continue the installing.
 
 * gtkada (for graphical interface of application)
 
-to build the application on Linux system use the following command :
+To build the application use the following command :
 
-	 make linux
+	 make build
 
 now to run the application use :
 
-	make linux-run
+	make run
 
 or if you don't use 'make'. You can directly use the alire command. See the Makefile file for alire command using.

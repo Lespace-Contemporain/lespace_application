@@ -30,13 +30,12 @@ package body main is
 
    procedure space_software_start is
    begin
---   Y := Set_Default_Icon_From_File("logo simple.png");
       F := new fenetre_lespace_record;
       F2 := new fenetre_lespace_anglais;
 
       Gtk.Main.Init;
 
-
+      Y := Set_Default_Icon_From_File("logo simple.jpg");
       Gtk.Dialog.Gtk_New (Win, "What is your language ???", Flags => Gtk.Dialog.Modal);
       Widget := Add_Button (Win, "Français", Gtk_Response_OK);
       Widget := Add_Button (Win, "English", Gtk_Response_Cancel);

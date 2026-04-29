@@ -8,6 +8,7 @@ pragma Ada_2022;
 
 with Gtk.Main;             use Gtk.Main;
 with Gtk.Button;           use Gtk.Button;
+with Gtk.Window;           use Gtk.Window;
 with Gtk.Widget;           use Gtk.Widget;
 with reseaux;              use reseaux;
 with ma_fenetre;           use ma_fenetre;

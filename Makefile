@@ -14,9 +14,9 @@ NEXT = cd
 
 #		LINUX BUILD SYSTEM
 
-linux :
+build :
 	$(NEXT) lespace/ && $(ALR_COMPILE)
-linux-run :
+run :
 	$(NEXT) lespace/ && alr run
 
 install :
