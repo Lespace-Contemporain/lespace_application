@@ -2,9 +2,7 @@
 
 #		Lespace Application 
 
-To build Lespace application project the followings tools should be install :
-alire,
-make.
+To build Lespace application project the followings tools should be install : alire and make.
 
 * Linux system
 
