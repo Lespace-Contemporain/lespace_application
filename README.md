@@ -14,7 +14,7 @@ To install alire run :
 
 To install alire on others systems go to https://alire.ada.dev/ and download alire for your system.
 
-Now after alire installed clone the project :
+Now, after alire installed. Clone the project :
 
 	git clone https://github.com/Lespace-Contemporain/lespace_application.git
 
@@ -22,19 +22,19 @@ enter into the directory "cd lespace_application" and run :
 
 	make install
 
-this command install the tools and library used by Lespace application. you should select :
+this command install the tools and library used by Lespace application. you should select
 
 * gnat native version and gprbuild
 
-like tools and continue the installing.
+like tools and continue the installing of
 
-* gtkada (for graphical interface of application)
+* gtkada (for graphical interface of application).
 
 To build the application use the following command :
 
 	 make build
 
-now to run the application use :
+now, to run the application use :
 
 	make run
 
